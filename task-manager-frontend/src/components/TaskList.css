@@ -1,0 +1,105 @@
+/* TaskList.css - All component-specific styles */
+.task-manager {
+    max-width: 600px;
+    width: 100%;
+    /* Takes full width of parent */
+    margin: 0;
+    /* Remove auto margins since body handles centering */
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Task Title Styling */
+.task-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0 auto 1.5rem;
+    /* Top | Horizontal | Bottom */
+    width: 100%;
+    text-align: center;
+    padding: 0 1rem;
+    /* Prevents edge sticking */
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: #1a1a1a;
+}
+
+.task-input-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.task-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    min-width: 0;
+    /* Prevents overflow */
+}
+
+.task-button {
+    padding: 0.75rem 1.5rem;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.task-button:hover {
+    background: #1d4ed8;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    background: #f9fafb;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.task-item.completed {
+    background: #f0fdf4;
+}
+
+.task-text {
+    flex: 1;
+}
+
+.task-text.completed {
+    text-decoration: line-through;
+    color: #6b7280;
+}
+
+.error-message {
+    color: #dc3545;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background: #f8d7da;
+    border-radius: 4px;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 1rem;
+    color: #666;
+}
