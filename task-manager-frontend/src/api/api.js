@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-    withCredentials: true, // ✅ required for cookies
+    baseURL: `${import.meta.env.VITE_API_URL}/api`,
+    withCredentials: true,
 });
+
 
 API.interceptors.response.use(
     response => response,
