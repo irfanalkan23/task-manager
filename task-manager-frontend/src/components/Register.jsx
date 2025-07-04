@@ -1,17 +1,20 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import API from '../api/api';
 
-function Login() {
+export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await login(email, password);
-        if (success) navigate('/dashboard');
+        try {
+            await API.post('/auth/register', { email, password });
+            navigate('/login');
+        } catch (error) {
+            console.error('Registration failed:', error);
+        }
     };
 
     return (
@@ -21,14 +24,16 @@ function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
+                required
             />
             <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
+                required
             />
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
     );
 }

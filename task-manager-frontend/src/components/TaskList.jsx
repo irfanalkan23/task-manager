@@ -1,91 +1,81 @@
 import { useState, useEffect } from 'react';
-import { getTasks, createTask } from '../api/tasks';
-import './TaskList.css';
+import API from '../api/api';
+import { useAuth } from '../context/AuthContext';
 
 export default function TaskList() {
     const [tasks, setTasks] = useState([]);
-    const [newTaskTitle, setNewTaskTitle] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-
-    // Fetch tasks on component mount
-    useEffect(() => {
-        fetchTasks();
-    }, []);
+    const [newTask, setNewTask] = useState('');
+    const { user } = useAuth();
 
     const fetchTasks = async () => {
-        setIsLoading(true);
-        setError(null);
         try {
-            const res = await getTasks();
-            setTasks(res.data);
-        } catch (err) {
-            setError('Failed to load tasks');
-            console.error('Fetch tasks error:', err);
-        } finally {
-            setIsLoading(false);
+            const { data } = await API.get('/tasks');
+            setTasks(data);
+        } catch (error) {
+            console.error('Failed to fetch tasks:', error);
         }
     };
 
-    const handleAddTask = async () => {
-        if (!newTaskTitle.trim()) return;
-
-        setIsLoading(true);
-        setError(null);
+    const addTask = async () => {
+        if (!newTask.trim()) return;
         try {
-            await createTask(newTaskTitle);
-            setNewTaskTitle('');
-            await fetchTasks(); // Wait for refresh
-        } catch (err) {
-            setError('Failed to add task');
-            console.error('Add task error:', err);
-        } finally {
-            setIsLoading(false);
+            await API.post('/tasks', { title: newTask });
+            setNewTask('');
+            fetchTasks();
+        } catch (error) {
+            console.error('Failed to add task:', error);
         }
     };
+
+    const toggleTask = async (id, completed) => {
+        try {
+            await API.put(`/tasks/${id}`, { completed: !completed });
+            fetchTasks();
+        } catch (error) {
+            console.error('Failed to update task:', error);
+        }
+    };
+
+    const deleteTask = async (id) => {
+        try {
+            await API.delete(`/tasks/${id}`);
+            fetchTasks();
+        } catch (error) {
+            console.error('Failed to delete task:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (user) fetchTasks();
+    }, [user]);
 
     return (
-        <div className="task-manager">
-            <h2 className="task-title">Tasks</h2>
-
-            {/* Error display */}
-            {error && <div className="error-message">{error}</div>}
-
-            <div className="task-input-group">
+        <div>
+            <h2>Your Tasks</h2>
+            <div>
                 <input
-                    className="task-input"
                     type="text"
-                    value={newTaskTitle}
-                    onChange={(e) => setNewTaskTitle(e.target.value)}
-                    placeholder="New task title"
-                    disabled={isLoading}
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    placeholder="New task..."
                 />
-                <button
-                    className="task-button"
-                    onClick={handleAddTask}
-                    disabled={isLoading || !newTaskTitle.trim()}
-                >
-                    {isLoading ? 'Adding...' : 'Add Task'}
-                </button>
+                <button onClick={addTask}>Add Task</button>
             </div>
-
-            {/* Loading state */}
-            {isLoading && !tasks.length ? (
-                <div className="loading-spinner">Loading tasks...</div>
-            ) : (
-                <ul className="task-list">
-                    {tasks.map(task => (
-                        <li
-                            className={`task-item ${task.completed ? 'completed' : ''}`}
-                            key={task._id}
-                        >
-                            <span className={`task-text ${task.completed ? 'completed' : ''}`}>
-                                {task.title}
-                            </span>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <ul>
+                {tasks.map(task => (
+                    <li key={task._id}>
+                        <input
+                            type="checkbox"
+                            checked={task.completed}
+                            onChange={() => toggleTask(task._id, task.completed)}
+                        />
+                        <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                            {task.title}
+                        </span>
+                        <button onClick={() => deleteTask(task._id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

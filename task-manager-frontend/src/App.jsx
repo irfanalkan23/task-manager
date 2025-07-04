@@ -1,38 +1,58 @@
-import { useState, useEffect } from 'react'; // Added useEffect import
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import TaskList from './components/TaskList';
+import Login from './components/Login';
+import Register from './components/Register';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
-function App() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  // For Testing Loading State:
-  // When you want to test the spinner later, you can temporarily add:
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
+function Navigation() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  console.log('Navigation rendered', { user });
 
   return (
-    <div className="App">
-      {/* Navigation Bar */}
-      <nav className="navbar">
-        <h1 className="app-title">Task Manager</h1>
-        <div className="auth-buttons">
-          <button className="btn login-btn">Login</button>
-          <button className="btn register-btn">Register</button>
-        </div>
-      </nav>
-
-      {/* Main Content */}
-      <div className="app-container">
-        {isLoading ? (
-          <div className="loading-spinner"></div>
+    <nav className="navbar">
+      <h1 className="app-title">Task Manager</h1>
+      <div className="auth-buttons">
+        {user ? (
+          <button onClick={() => { logout(); navigate('/login'); }}>
+            Logout
+          </button>
         ) : (
-          <TaskList />
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
         )}
       </div>
-    </div>
+    </nav>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <div className="App">
+          <Navigation />
+          <div className="app-container">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <TaskList />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
+          </div>
+        </div>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 

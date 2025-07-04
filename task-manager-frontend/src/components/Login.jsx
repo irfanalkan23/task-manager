@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const { login } = useAuth();
@@ -11,7 +11,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const success = await login(email, password);
-        if (success) navigate('/dashboard');
+        if (success) navigate('/');
     };
 
     return (
@@ -21,12 +21,14 @@ function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
+                required
             />
             <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
+                required
             />
             <button type="submit">Login</button>
         </form>

@@ -1,20 +1,19 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: '/api', // Uses the proxy
-    timeout: 5000,
+    baseURL: import.meta.env.VITE_API_URL || '/api',
+    withCredentials: true,
 });
 
-// Add JWT token to requests if logged in
-API.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
+API.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 401) {
+            // Handle unauthorized (redirect to login)
+            window.location = '/login';
+        }
+        return Promise.reject(error);
     }
-    return config;
-});
+);
 
 export default API;
-
-// Step 2: Create an API Service (Axios)
-// Created a new file src/api/api.js in my React app

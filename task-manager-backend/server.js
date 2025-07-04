@@ -1,3 +1,4 @@
+const helmet = require('helmet');
 const express = require('express');
 const cors = require('cors');
 const User = require('./models/User'); // Add this line
@@ -8,8 +9,13 @@ require('dotenv').config();
 
 const app = express();
 
+app.use(helmet()); // ✅ Helmet for secure headers
+
 // Middleware (ORDER MATTERS!)
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Your Vite frontend URL
+    credentials: true // Allow cookies
+}));
 app.use(express.json());
 // Add after other middleware
 app.use(cookieParser());
@@ -42,7 +48,7 @@ app.get('/api/health', (req, res) => {
 
 
 // Start server
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

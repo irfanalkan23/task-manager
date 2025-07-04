@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
+const authMiddleware = require('../middleware/authMiddleware'); // Adjust path as needed
 const Task = require('../models/Task');  // Double dots for parent directory
+const { body, validationResult } = require('express-validator');
+
 
 // Add auth middleware to protected routes
-router.get('/', auth, async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
         const tasks = await Task.find({ user: req.userId });
         res.json(tasks);
@@ -13,40 +16,67 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// GET all tasks
-router.get('/', auth, async (req, res) => {
-    const tasks = await Task.find({ user: req.userId })
-        .populate('user', 'email'); // Include user email
-    res.json(tasks);
+// Get all tasks for user
+router.get('/', authMiddleware, async (req, res) => {
+    try {
+        const tasks = await Task.find({ user: req.userId });
+        res.json(tasks);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
 // POST new task
-router.post('/', auth, async (req, res) => {
-    try {
-        const task = new Task({
-            title: req.body.title,
-            user: req.userId, // Add this line
-            completed: false
-        });
-        await task.save();
-        res.status(201).json(task);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
+router.post('/',
+    authMiddleware,
+    [
+        body('title').trim().notEmpty().escape().withMessage('Title is required')
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+        try {
+            const task = new Task({
+                title: req.body.title,
+                user: req.userId,
+                completed: false
+            });
+            await task.save();
+            res.status(201).json(task);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
     }
-});
+);
+
 
 // GET single task
 router.get('/:id', getTask, (req, res) => {
     res.json(res.task);
 });
 
-// DELETE task
-router.delete('/:id', getTask, async (req, res) => {
+// Update task
+router.put('/:id', authMiddleware, async (req, res) => {
     try {
-        await res.task.remove();
+        const task = await Task.findOneAndUpdate(
+            { _id: req.params.id, user: req.userId },
+            { $set: { title: req.body.title, completed: req.body.completed } },
+            { new: true }
+        );
+        res.json(task);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Delete task
+router.delete('/:id', authMiddleware, async (req, res) => {
+    try {
+        await Task.deleteOne({ _id: req.params.id, user: req.userId });
         res.json({ message: 'Task deleted' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
 

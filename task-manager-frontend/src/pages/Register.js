@@ -1,17 +1,21 @@
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import API from '../api/api';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await login(email, password);
-        if (success) navigate('/dashboard');
+        try {
+            await API.post('/auth/register', { email, password });
+            alert('Registration successful!');
+            navigate('/login');
+        } catch (error) {
+            alert(error.response?.data?.message || 'Registration failed');
+        }
     };
 
     return (
@@ -28,7 +32,7 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
             />
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
     );
 }
