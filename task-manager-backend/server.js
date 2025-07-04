@@ -18,7 +18,7 @@ app.use(helmet()); // ✅ Helmet for secure headers
 // }));
 
 app.use(cors({
-    origin: 'https://task-manager-frontend.onrender.com',
+    origin: 'https://task-manager-frontend-dexd.onrender.com',
     credentials: true
 }));
 
