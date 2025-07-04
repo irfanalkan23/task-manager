@@ -41,7 +41,7 @@ router.post('/register', authLimiter,
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'none', // 🔥 this is the key fix
                 maxAge: 3600000
             }).status(201).json({
                 message: 'User registered successfully',
@@ -77,7 +77,7 @@ router.post('/login', authLimiter,
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'none', // 🔥 this is the key fix
                 maxAge: 3600000
             }).json({
                 message: 'Login successful',
