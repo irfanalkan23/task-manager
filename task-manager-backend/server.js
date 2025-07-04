@@ -12,11 +12,19 @@ const app = express();
 app.use(helmet()); // ✅ Helmet for secure headers
 
 // Middleware (ORDER MATTERS!)
+// app.use(cors({
+//     origin: 'http://localhost:5173', // Your Vite frontend URL
+//     credentials: true // Allow cookies
+// }));
+
 app.use(cors({
-    origin: 'http://localhost:5173', // Your Vite frontend URL
-    credentials: true // Allow cookies
+    origin: 'https://task-manager-frontend.onrender.com',
+    credentials: true
 }));
+
+
 app.use(express.json());
+
 // Add after other middleware
 app.use(cookieParser());
 
