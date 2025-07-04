@@ -1,108 +1,132 @@
-# Task Manager (Full-Stack)
-- Backend: Node.js + Express + MongoDB
-- Frontend: React + Vite
+# 📝 Task Manager — Full-Stack MERN App
 
+A secure, full-featured task management app built with the MERN stack (MongoDB, Express, React, Node.js). Users can register, log in, and manage their personal tasks in a clean, responsive interface.
 
+> 🔐 Built with authentication, protected routes, and deployed entirely on free-tier infrastructure.
 
+---
 
+## 🌐 Live Demo
 
-The Personal Task Manager with Authentication is a full-stack project. 
-Here's a step-by-step breakdown of how to build it using a MERN stack (MongoDB, Express, React, Node.js) with JWT authentication—all free!
+- **Frontend**: [task-manager-frontend-dexd.onrender.com](https://task-manager-frontend-dexd.onrender.com)
+- **Backend**: [task-manager-backend-kxmy.onrender.com](https://task-manager-backend-kxmy.onrender.com/api/health)
 
-# 🔨 Tech Stack (100% Free)
-Layer	Technology	Free Hosting Option
-Frontend	React (Vite)	Vercel / Netlify
-Backend	Node.js + Express	Railway / Render
-Database	MongoDB Atlas	Free 512MB cluster
-Auth	JWT (JSON Web Tokens)	Built into backend
+---
 
-📝 Features to Implement
-User Authentication
-- Sign up, login, logout
-- Protected routes (only logged-in users can access tasks)
-- JWT token storage (httpOnly cookies or localStorage)
+## 🚀 Tech Stack
 
-Task Management (CRUD)
+| Layer     | Technology               | Hosting         |
+|-----------|--------------------------|------------------|
+| Frontend  | React (Vite)             | Render (Static Site) |
+| Backend   | Node.js + Express        | Render (Web Service) |
+| Database  | MongoDB Atlas            | Free 512MB Cluster |
+| Auth      | JWT + httpOnly Cookies   | Built-in         |
+
+---
+
+## 🔐 Features
+
+### ✅ Authentication
+- Register, login, logout
+- JWT stored in secure, httpOnly cookies
+- Protected routes (tasks only accessible when logged in)
+
+### ✅ Task Management (CRUD)
 - Create, read, update, delete tasks
 - Mark tasks as complete
-- Filter tasks (all, active, completed)
-- Due dates & priority levels (optional)
+- Real-time updates after actions
 
-UI/UX
-- Responsive design (works on mobile & desktop)
-- Loading & error states
-- Toast notifications (e.g., "Task deleted!")
+### ✅ UI/UX
+- Responsive design (mobile + desktop)
+- Error handling and loading states
+- Clean, minimal interface
 
-🚀 Step-by-Step Implementation Plan
-1️⃣ Set Up the Backend (Node.js + Express + MongoDB)
+---
 
-mkdir task-manager-backend
-cd task-manager-backend
-npm init -y
-npm install express mongoose bcryptjs jsonwebtoken cors dotenv
+## 🧠 Architecture Overview
 
-Folder Structure:
+task-manager/ 
+├── task-manager-backend/ 
+│ ├── models/ # Mongoose schemas (User, Task) 
+│ ├── routes/ # Auth and Task routes 
+│ ├── middleware/ # JWT auth middleware 
+│ └── server.js # Express app entry point 
+└── task-manager-frontend/ 
+├── src/ 
+│ ├── components/ # Login, Register, TaskList 
+│ ├── context/ # AuthContext for global state 
+│ ├── api/ # Axios instance with interceptors 
+│ └── App.jsx # React Router setup
 
-/backend
-  ├── models/ (Mongoose models: User.js, Task.js)
-  ├── controllers/ (authController.js, taskController.js)
-  ├── routes/ (authRoutes.js, taskRoutes.js)
-  ├── middleware/ (authMiddleware.js for JWT verification)
-  ├── .env (store secrets like MongoDB URI, JWT_SECRET)
-  └── server.js (main entry point)
 
-Key Endpoints:
-# Auth
-POST /api/auth/register   # Create a new user
-POST /api/auth/login      # Log in & get JWT token
-# Tasks (protected routes)
-GET    /api/tasks         # Get all tasks for user
-POST   /api/tasks         # Create a new task
-PUT    /api/tasks/:id     # Update a task
-DELETE /api/tasks/:id     # Delete a task
 
-2️⃣ Set Up the Frontend (React + Vite)
+---
 
-npm create vite@latest task-manager-frontend --template react
-cd task-manager-frontend
-npm install axios react-router-dom @heroicons/react
+## ⚙️ Environment Variables
 
-Folder Structure:
+### Backend (`task-manager-backend/.env`)
+MONGODB_URI=your_mongo_uri JWT_SECRET=your_jwt_secret NODE_ENV=production
 
-/frontend
-  ├── src/
-  │   ├── components/ (TaskList.js, TaskForm.js, Navbar.js)
-  │   ├── pages/ (Login.js, Register.js, Dashboard.js)
-  │   ├── context/ (AuthContext.js for global state)
-  │   ├── hooks/ (useAuth.js, useTasks.js)
-  │   ├── App.js (routes)
-  │   └── main.jsx (entry)
-  └── vite.config.js
 
-Key Frontend Logic:
-- Use axios to call the backend API.
-- Store JWT in localStorage or cookies.
-- Protect routes (e.g., redirect to /login if not authenticated).
-- Use useContext or Zustand for state management.
+### Frontend (`task-manager-frontend/.env`)
+VITE_API_URL=https://task-manager-backend-kxmy.onrender.com
 
-3️⃣ Connect Frontend to Backend
-In axios, set the base URL:
 
-// src/api/axios.js
-import axios from "axios";
+---
 
-export const API = axios.create({
-  baseURL: "http://localhost:5000/api", // Change in production
-});
+## 🧪 API Endpoints
 
-// Add JWT to headers if logged in
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
-  return config;
-});
+### Auth
+- `POST /api/auth/register` – Register new user
+- `POST /api/auth/login` – Log in
+- `POST /api/auth/logout` – Log out
+- `GET /api/auth/verify` – Verify session
 
-4️⃣ Deploy (Free!)
-Database: Set up a free MongoDB Atlas cluster. https://www.mongodb.com/atlas/database
-Backend: Deploy to Railway https://railway.app/ or Render https://render.com/.
-Frontend: Deploy to Vercel https://vercel.com/ or Netlify https://www.netlify.com/.
+### Tasks (Protected)
+- `GET /api/tasks` – Get all tasks
+- `POST /api/tasks` – Create task
+- `PUT /api/tasks/:id` – Update task
+- `DELETE /api/tasks/:id` – Delete task
+
+---
+
+## 🛡 Security Highlights
+
+- `helmet` for secure HTTP headers
+- `express-validator` for input validation
+- `express-rate-limit` to prevent brute-force attacks
+- `cors` configured for cross-origin cookie auth
+- JWT stored in `httpOnly`, `Secure`, `SameSite=None` cookies
+
+---
+
+## 📦 Deployment Notes
+
+- MongoDB Atlas IP whitelist includes Render static IPs
+- Backend and frontend deployed from a monorepo
+- CORS and cookies configured for cross-origin auth
+
+---
+
+## 📌 Future Enhancements
+
+- Task filtering (all, active, completed)
+- Due dates and priority levels
+- Toast notifications (e.g., task added/deleted)
+- Drag-and-drop task reordering
+- Dark mode toggle
+
+---
+
+## 👨‍💻 Author
+
+**Irfan Alkan**  
+Passionate about building secure, scalable full-stack applications.  
+[GitHub](https://github.com/irfanalkan23)
+
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
