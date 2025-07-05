@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import API from '../api/api';
+import checklistImage from '../assets/checklist.jpeg';
 
 export default function LoginRegister() {
     const [mode, setMode] = useState('login');
@@ -28,10 +29,11 @@ export default function LoginRegister() {
     return (
         <div className="form-container">
             <img
-                src="https://png.pngtree.com/png-clipart/20230811/original/pngtree-vibrant-banner-with-a-warm-welcome-message-perfect-for-decor-and-ornamentation-vector-picture-image_10313059.png"
-                alt="Welcome"
+                src={checklistImage}
+                alt="Task checklist illustration"
                 className="welcome-image"
             />
+
             <h2 className="welcome-text">Welcome to Task Manager</h2>
             <div className="form-header">
                 <button
