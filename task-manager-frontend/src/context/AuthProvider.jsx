@@ -37,7 +37,8 @@ export const AuthProvider = ({ children }) => {
         try {
             await API.post('/auth/logout');
         } finally {
-            setUser(null);
+            setUser(null); // ✅ clear user state
+            window.location.href = '/'; // ✅ force full reload to reset auth state
         }
     };
 
