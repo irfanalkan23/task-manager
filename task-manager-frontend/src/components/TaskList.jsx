@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import API from '../api/api';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 export default function TaskList() {
     const [tasks, setTasks] = useState([]);
