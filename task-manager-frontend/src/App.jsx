@@ -1,15 +1,13 @@
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import TaskList from './components/TaskList';
-import Login from './components/Login';
-import Register from './components/Register';
+import LoginRegister from './components/LoginRegister';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function Navigation() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  console.log('Navigation rendered', { user });
 
   return (
     <nav className="navbar">
@@ -20,10 +18,7 @@ function Navigation() {
             Logout
           </button>
         ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
+          <Link to="/auth">Login / Register</Link>
         )}
       </div>
     </nav>
@@ -38,8 +33,7 @@ function App() {
           <Navigation />
           <div className="app-container">
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/auth" element={<LoginRegister />} />
               <Route
                 path="/"
                 element={

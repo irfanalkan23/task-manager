@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import API from '../api/api';
 
 const AuthContext = createContext();
@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
                 const { data } = await API.get('/auth/verify');
                 setUser(data.user);
             } catch (error) {
+                console.error(error);
                 setUser(null);
             } finally {
                 setIsLoading(false);
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
             setUser(data.user);
             return true;
         } catch (error) {
+            console.error(error);
             return false;
         }
     };
