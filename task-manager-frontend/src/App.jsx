@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthProvider';
+import { useAuth } from './hooks/useAuth';
 import TaskList from './components/TaskList';
 import LoginRegister from './components/LoginRegister';
 import ProtectedRoute from './components/ProtectedRoute';
