@@ -8,6 +8,7 @@ const authRouter = require('./routes/auth');
 require('dotenv').config();
 
 const app = express();
+app.set('trust proxy', 1); // ✅ Trust the first proxy (Render)
 
 app.use(helmet()); // ✅ Helmet for secure headers
 
