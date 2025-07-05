@@ -42,6 +42,13 @@ export default function LoginRegister() {
                 </button>
             </div>
             <form onSubmit={handleSubmit}>
+                <img
+                    src="https://png.pngtree.com/png-clipart/20230811/original/pngtree-vibrant-banner-with-a-warm-welcome-message-perfect-for-decor-and-ornamentation-vector-picture-image_10313059.png"
+                    alt="Welcome"
+                    className="welcome-image"
+                />
+                <h2 className="welcome-text">Welcome to Task Manager</h2>
+
                 <input
                     type="email"
                     placeholder="Email"
