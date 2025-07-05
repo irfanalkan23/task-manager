@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import API from '../api/api';
@@ -8,14 +8,25 @@ export default function LoginRegister() {
     const [mode, setMode] = useState('login');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { login } = useAuth();
+    const { user, login } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/tasks');
+        }
+    }, [user, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (mode === 'login') {
             const success = await login(email, password);
-            if (success) navigate('/');
+            if (success) {
+                navigate('/tasks');
+            } else {
+                console.error('Login failed');
+            }
         } else {
             try {
                 await API.post('/auth/register', { email, password });

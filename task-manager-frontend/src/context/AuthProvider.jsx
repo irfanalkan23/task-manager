@@ -10,13 +10,16 @@ export const AuthProvider = ({ children }) => {
         const verifyAuth = async () => {
             try {
                 const { data } = await API.get('/auth/verify');
+                console.log('✅ /auth/verify success:', data);
                 setUser(data.user);
-            } catch {
+            } catch (err) {
+                console.error('❌ /auth/verify failed:', err);
                 setUser(null);
             } finally {
                 setIsLoading(false);
             }
         };
+
         verifyAuth();
     }, []);
 
