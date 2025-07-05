@@ -95,10 +95,12 @@ router.post('/logout', (req, res) => {
     res.clearCookie('token', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none'
+        sameSite: 'none',
+        path: '/' // ✅ this is critical
     });
-    res.json({ message: 'Logged out' });
+    res.status(200).json({ message: 'Logged out' });
 });
+
 
 
 // In your backend auth routes
