@@ -92,9 +92,14 @@ router.post('/login', authLimiter,
 );
 
 router.post('/logout', (req, res) => {
-    res.clearCookie('token');
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'none'
+    });
     res.json({ message: 'Logged out' });
 });
+
 
 // In your backend auth routes
 router.get('/verify', authMiddleware, async (req, res) => {
