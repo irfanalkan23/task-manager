@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import API from '../api/api';
 import { useAuth } from '../hooks/useAuth';
+import './TaskList.css';
 
 export default function TaskList() {
     const [tasks, setTasks] = useState([]);
@@ -50,29 +51,37 @@ export default function TaskList() {
     }, [user]);
 
     return (
-        <div>
-            <h2>Your Tasks</h2>
-            <div>
+        <div className="task-manager">
+            <h2 className="task-title">Your Tasks</h2>
+
+            <div className="task-input-group">
                 <input
                     type="text"
+                    className="task-input"
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
                     placeholder="New task..."
                 />
-                <button onClick={addTask}>Add Task</button>
+                <button className="task-button" onClick={addTask}>Add Task</button>
             </div>
-            <ul>
+
+            <ul className="task-list">
                 {tasks.map(task => (
-                    <li key={task._id}>
+                    <li
+                        key={task._id}
+                        className={`task-item ${task.completed ? 'completed' : ''}`}
+                    >
                         <input
                             type="checkbox"
                             checked={task.completed}
                             onChange={() => toggleTask(task._id, task.completed)}
                         />
-                        <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                        <span className={`task-text ${task.completed ? 'completed' : ''}`}>
                             {task.title}
                         </span>
-                        <button onClick={() => deleteTask(task._id)}>Delete</button>
+                        <button className="task-button" onClick={() => deleteTask(task._id)}>
+                            Delete
+                        </button>
                     </li>
                 ))}
             </ul>
