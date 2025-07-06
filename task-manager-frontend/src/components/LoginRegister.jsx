@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -23,19 +24,22 @@ export default function LoginRegister() {
         if (mode === 'login') {
             const success = await login(email, password);
             if (success) {
+                toast.success('Welcome back!');
                 navigate('/tasks');
             } else {
-                console.error('Login failed');
+                toast.error('Login failed. Please check your credentials.');
             }
         } else {
             try {
                 await API.post('/auth/register', { email, password });
+                toast.success('Registration successful! Please log in.');
                 setMode('login');
             } catch (err) {
-                console.error('Registration failed:', err);
+                toast.error('Registration failed. Try a different email.');
             }
         }
     };
+
 
     return (
         <div className="form-container">

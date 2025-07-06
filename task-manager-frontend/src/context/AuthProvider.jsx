@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
 import API from '../api/api';
@@ -36,11 +37,13 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             await API.post('/auth/logout');
+            toast.info('You’ve been logged out.');
         } finally {
-            setUser(null); // ✅ clear user state
-            window.location.href = '/'; // ✅ force full reload to reset auth state
+            setUser(null);
+            window.location.href = '/';
         }
     };
+
 
     return (
         <AuthContext.Provider value={{ user, isLoading, login, logout }}>

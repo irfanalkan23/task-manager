@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 import { useAuth } from './hooks/useAuth';
@@ -25,6 +27,7 @@ function Navigation() {
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       <AuthProvider>
         <div className="App">
           <Navigation />
