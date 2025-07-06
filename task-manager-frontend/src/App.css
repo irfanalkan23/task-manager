@@ -99,14 +99,15 @@ form button {
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  /* ✅ adds space between user email and Logout button */
 }
 
 .navbar-user {
   font-size: 0.95rem;
   color: #e0e7ff;
+  white-space: nowrap;
 }
-
 
 .auth-buttons {
   display: flex;
