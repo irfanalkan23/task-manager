@@ -88,19 +88,23 @@ form button {
   align-items: center;
   background-color: #1e3a8a;
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .app-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  /* ✅ adds space between user email and Logout button */
+  gap: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
 }
 
 .navbar-user {
@@ -108,6 +112,22 @@ form button {
   color: #e0e7ff;
   white-space: nowrap;
 }
+
+.navbar button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.navbar button:hover {
+  background-color: #dc2626;
+}
+
 
 .auth-buttons {
   display: flex;
