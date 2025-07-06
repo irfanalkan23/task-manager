@@ -83,20 +83,30 @@ form button {
 
 /* Navigation Bar */
 .navbar {
-  width: 100%;
-  padding: 1rem 2rem;
-  background: #2563eb;
-  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.75rem 1.5rem;
 }
 
 .app-title {
-  margin: 0;
   font-size: 1.5rem;
+  font-weight: bold;
 }
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-user {
+  font-size: 0.95rem;
+  color: #e0e7ff;
+}
+
 
 .auth-buttons {
   display: flex;

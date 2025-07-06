@@ -15,14 +15,20 @@ function Navigation() {
   return (
     <nav className="navbar">
       <h1 className="app-title">Task Manager</h1>
-      {user && (
-        <button onClick={() => { logout(); navigate('/'); }}>
-          Logout
-        </button>
-      )}
+      <div className="navbar-right">
+        {user && (
+          <>
+            <span className="navbar-user">Logged in as <strong>{user.email}</strong></span>
+            <button onClick={() => { logout(); navigate('/'); }}>
+              Logout
+            </button>
+          </>
+        )}
+      </div>
     </nav>
   );
 }
+
 
 function App() {
   return (
