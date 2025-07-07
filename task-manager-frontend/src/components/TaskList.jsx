@@ -7,15 +7,19 @@ export default function TaskList() {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
     const { user, isLoading } = useAuth();
+    console.log('🔍 TaskList render →', { user, isLoading });
 
     const fetchTasks = async () => {
+        console.log('🚀 fetchTasks() start');
         try {
             const { data } = await API.get('/tasks');
+            console.log('📥 fetchTasks() got data:', data);
             setTasks(data);
         } catch (error) {
-            console.error('Failed to fetch tasks:', error);
+            console.error('❌ fetchTasks() error:', error);
         }
     };
+
 
     const addTask = async () => {
         if (!newTask.trim()) return;
@@ -47,7 +51,9 @@ export default function TaskList() {
     };
 
     useEffect(() => {
+        console.log('🔁 TaskList useEffect fired:', { user, isLoading });
         if (!isLoading && user) {
+            console.log('✅ Conditions met, calling fetchTasks()');
             fetchTasks();
         }
     }, [isLoading, user]);
