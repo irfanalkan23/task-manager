@@ -6,7 +6,7 @@ import './TaskList.css';
 export default function TaskList() {
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState('');
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
 
     const fetchTasks = async () => {
         try {
@@ -47,8 +47,10 @@ export default function TaskList() {
     };
 
     useEffect(() => {
-        if (user) fetchTasks();
-    }, [user]);
+        if (!isLoading && user) {
+            fetchTasks();
+        }
+    }, [isLoading, user]);
 
     return (
         <div className="task-manager">
