@@ -35,9 +35,21 @@ export default function LoginRegister() {
                 toast.success('Registration successful! Please log in.');
                 setMode('login');
             } catch (err) {
-                toast.error('Registration failed. Try a different email.');
+                const res = err.response;
+
+                if (res?.status === 400 && res.data?.errors) {
+                    // Validation errors from express-validator
+                    res.data.errors.forEach(error => {
+                        toast.error(error.msg);
+                    });
+                } else if (res?.status === 400 && res.data?.message === 'Email already exists') {
+                    toast.error('This email is already registered.');
+                } else {
+                    toast.error('Registration failed. Please try again.');
+                }
             }
         }
+
     };
 
 
