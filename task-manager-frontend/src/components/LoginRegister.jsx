@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import API from '../api/api';
 import checklistImage from '../assets/checklist.jpeg';
@@ -11,6 +11,9 @@ export default function LoginRegister() {
     const [password, setPassword] = useState('');
     const { user, login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/tasks';
+
 
     useEffect(() => {
         if (user) {
@@ -25,7 +28,7 @@ export default function LoginRegister() {
             const success = await login(email, password);
             if (success) {
                 toast.success('Welcome back!');
-                navigate('/tasks');
+                navigate(from, { replace: true });
             } else {
                 toast.error('Invalid email or password');
             }
