@@ -27,7 +27,7 @@ export default function LoginRegister() {
                 toast.success('Welcome back!');
                 navigate('/tasks');
             } else {
-                toast.error('Login failed. Please check your credentials.');
+                toast.error('Invalid email or password');
             }
         } else {
             try {
@@ -39,6 +39,7 @@ export default function LoginRegister() {
             }
         }
     };
+
 
 
     return (

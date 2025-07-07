@@ -9,12 +9,10 @@ const API = axios.create({
 API.interceptors.response.use(
     response => response,
     error => {
-        if (error.response?.status === 401) {
-            // Handle unauthorized (redirect to login)
-            window.location = '/login';
-        }
+        // ❌ Removed the redirect
         return Promise.reject(error);
     }
 );
+
 
 export default API;

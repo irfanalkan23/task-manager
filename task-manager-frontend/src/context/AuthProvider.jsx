@@ -29,10 +29,12 @@ export const AuthProvider = ({ children }) => {
             const { data } = await API.post('/auth/login', { email, password });
             setUser(data.user);
             return true;
-        } catch {
+        } catch (err) {
+            console.error('Login error:', err.response?.data || err.message);
             return false;
         }
     };
+
 
     const logout = async () => {
         try {
