@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import API from '../api/api';
-import checklistImage from '../assets/checklist.jpeg';
 
 export default function LoginRegister() {
     const [mode, setMode] = useState('login');
@@ -60,7 +59,7 @@ export default function LoginRegister() {
     return (
         <div className="form-container">
             <img
-                src={checklistImage}
+                src="/checklist.jpeg"
                 alt="Task checklist illustration"
                 className="welcome-image"
             />
