@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import API from '../api/api';
+import './LoginRegister.css';       // ← import your new CSS
 
 export default function LoginRegister() {
     const [mode, setMode] = useState('login');
@@ -57,45 +58,54 @@ export default function LoginRegister() {
 
 
     return (
-        <div className="form-container">
-            <img
-                src="/checklist.jpeg"
-                alt="Task checklist illustration"
-                className="welcome-image"
-            />
+        <div className="login-register-page">
 
-            <h2 className="welcome-text">Welcome to Task Manager</h2>
-            <div className="form-header">
-                <button
-                    className={mode === 'login' ? 'active' : ''}
-                    onClick={() => setMode('login')}
-                >
-                    Login
-                </button>
-                <button
-                    className={mode === 'register' ? 'active' : ''}
-                    onClick={() => setMode('register')}
-                >
-                    Register
-                </button>
+            <div className="form-container">
+                <img
+                    src="/checklist.jpeg"
+                    alt="Task checklist illustration"
+                    className="welcome-image"
+                />
+
+                <h2 className="welcome-text">Welcome to Task Manager</h2>
+                <div className="form-header">
+                    <button
+                        className={mode === 'login' ? 'active' : ''}
+                        onClick={() => setMode('login')}
+                    >
+                        Login
+                    </button>
+                    <button
+                        className={mode === 'register' ? 'active' : ''}
+                        onClick={() => setMode('register')}
+                    >
+                        Register
+                    </button>
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit">{mode === 'login' ? 'Login' : 'Register'}</button>
+                </form>
             </div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">{mode === 'login' ? 'Login' : 'Register'}</button>
-            </form>
+
+            <img
+                src="/task-manager-image.jpg"
+                alt="Overview of Task Manager features"
+                className="side-image"
+            />
         </div>
     );
 }
