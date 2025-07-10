@@ -106,9 +106,16 @@
     color: #666;
 }
 
-@media (max-width: 600px) {
-    .task-manager {
-        padding: 1rem;
+@media (max-width: 400px) {
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .task-text {
+        width: 100%;
+        word-break: break-word;
     }
 
     .task-input-group {
@@ -125,14 +132,7 @@
         max-width: 100%;
     }
 
-    .task-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .task-text {
-        width: 100%;
-        word-break: break-word;
+    .task-manager {
+        padding: 1rem;
     }
 }
